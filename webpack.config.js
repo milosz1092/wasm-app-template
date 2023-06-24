@@ -6,26 +6,35 @@ const dist = path.resolve(__dirname, "dist");
 
 module.exports = {
   mode: "production",
-  entry: {
-    index: "./js/index.js"
-  },
-  output: {
-    path: dist,
-    filename: "[name].js"
-  },
+  entry: {},
   devServer: {
     static: dist,
+    headers: {
+      'Cross-Origin-Opener-Policy': 'same-origin',
+      'Cross-Origin-Embedder-Policy': 'require-corp'
+    }
   },
   plugins: [
     new CopyPlugin({
-      patterns: [path.resolve(__dirname, "static")]
+      patterns: [
+        path.resolve(__dirname, "static"),
+        {
+          from: path.resolve(__dirname, "pkg"),
+          globOptions: {
+            dot: false,
+            gitignore: false,
+            ignore: ["**/README.md", "**/package.json"],
+          },
+        }
+      ],
     }),
 
     new WasmPackPlugin({
       crateDirectory: __dirname,
+      extraArgs: '--no-typescript --target web --features wasm_thread/es_modules',
     }),
   ],
   experiments: {
     asyncWebAssembly: true
-  }
+  },
 };

@@ -1,9 +1,10 @@
 {
-  "author": "You <you@example.com>",
+  "author": "Milosz Szewczyk <milosz1092@gmail.com>",
   "name": "rust-webpack-template",
   "version": "0.1.0",
   "scripts": {
     "build": "rimraf dist pkg && webpack",
+    "build:serve": "node build_serve.js",
     "start": "rimraf dist pkg && webpack-dev-server --open",
     "test": "cargo test && wasm-pack test --headless"
   },

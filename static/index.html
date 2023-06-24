@@ -1,10 +1,17 @@
-<!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>My Rust + Webpack project!</title>
-  </head>
-  <body>
-    <script src="index.js"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+</head>
+
+<body>
+  <script type="module">
+    import init, { run } from "./index.js";
+    init()
+      .then(() => {
+        run()
+      });
+  </script>
+</body>
+
 </html>
