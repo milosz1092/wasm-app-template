@@ -1,7 +1,5 @@
 use std::time::Duration;
 
-#[cfg(not(target_arch = "wasm32"))]
-use std::thread;
 #[cfg(target_arch = "wasm32")]
 use wasm_thread as thread;
 
@@ -24,29 +22,16 @@ mod wasm {
 }
 
 fn main() {
-    #[cfg(not(target_arch = "wasm32"))]
-    env_logger::init_from_env(
-        env_logger::Env::default().filter_or(env_logger::DEFAULT_FILTER_ENV, "info"),
-    );
-
-    for _ in 0..2 {
-        thread::spawn(|| {
-            for i in 1..3 {
-                log::info!(
-                    "hi number {} from the spawned thread {:?}!",
-                    i,
-                    thread::current().id()
-                );
-                thread::sleep(Duration::from_millis(1));
-            }
-        });
-    }
-
-    for i in 1..3 {
+    thread::spawn(|| {
         log::info!(
-            "hi number {} from the main thread {:?}!",
-            i,
+            "hi number from the spawned thread {:?}!",
             thread::current().id()
         );
-    }
+        thread::sleep(Duration::from_millis(1));
+    });
+
+    log::info!(
+        "hi number from the main thread {:?}!",
+        thread::current().id()
+    );
 }
